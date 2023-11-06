@@ -1,31 +1,23 @@
 /* LOGIN */
-document.addEventListener("DOMContentLoaded", function() {
-    const loginForm = document.getElementById("loginForm");
-    const inputNombre = document.getElementById("inputNombre");
-    const inputPassword = document.getElementById("inputPassword");
-    const usuarioIncorrecto = document.getElementById("usuarioIncorrecto");
-    const nombreU = document.getElementById("nombreU");
-    const btnInicioSesion = document.getElementById("btnInicioSesion");
 
-    loginForm.addEventListener("submit", function(event) {
-        event.preventDefault();
+loginForm.addEventListener("submit", function(event) {
+    event.preventDefault();
 
-        const nombre = inputNombre.value;
-        const contrasena = inputPassword.value;
+    const nombre = inputNombre.value;
+    const contrasena = inputPassword.value;
 
-        if (nombre !== "" && contrasena === "1234") {
+    usuarioIncorrecto.textContent = (nombre !== "" && contrasena === "1234")
+        ? "Hola, " + nombre
+        : "Nombre de usuario o contraseña incorrectos. Inténtelo de nuevo.";
 
-            const modal = bootstrap.Modal.getInstance(document.getElementById("exampleModal"));
-            modal.hide();
+    if (nombre !== "" && contrasena === "1234") {
+        const modal = bootstrap.Modal.getInstance(document.getElementById("exampleModal"));
+        modal.hide();
 
-            nombreU.textContent = "Hola, " + nombre;
-            nombreU.style.display = "inline";
-            btnInicioSesion.style.display = "none";
-            
-        } else {
-            usuarioIncorrecto.textContent = "Nombre de usuario o contraseña incorrectos. Inténtelo de nuevo.";
-        }
-    });
+        nombreU.textContent = "Hola, " + nombre;
+        nombreU.style.display = "inline";
+        btnInicioSesion.style.display = "none";
+    }
 });
 
 /* CATALOGO */
@@ -38,119 +30,75 @@ function Producto(id, nombre, categoria, precio, imagen) {
     this.imagen = imagen;
 }
 
+function crearProductoCard(producto) {
+    const contenedor = document.createElement("div");
+    contenedor.className = "col-xl-3 col-md-6 col-sm-12";
+    contenedor.innerHTML = `
+        <div class="card text-center">
+            <img src="${producto.imagen}" class="card-img-top h-100" alt="">
+            <div class="card-body">
+                <p class="card-title">${producto.nombre}</p>
+                <p class="card-text"><strong>$${producto.precio}</strong></p>
+                <a href="#" class="btn btn-danger btnComprar">Comprar</a>
+            </div>
+        </div>
+    `;
+    const botonComprar = contenedor.querySelector('.btnComprar');
+    botonComprar.addEventListener('click', function () {
+        carrito.push(producto);
+        actualizarCarrito();
+        /* mensaje exitoso */
+        Toastify({
+            text: "Producto añadido al carrito",
+            gravity: "bottom",
+            duration: 3000
+        }).showToast();
+    });
+    return contenedor;
+}
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    let productos = [
-        new Producto(1, "Paredes y Techos", "Rodillos", 2100, "img/rodillo1.jpg"),
-        new Producto(2, "Microfibra", "Rodillos", 2100, "img/rodillo2.jpg"),
-        new Producto(3, "Epoxi", "Rodillos", 2300, "img/rodillo3.jpg"),
-        new Producto(4, "Antigota", "Rodillos", 2500, "img/rodillo4.jpg"),
-        new Producto(5, "Hogar", "Rodillos", 2400, "img/rodillo5.jpg"),
-        new Producto(6, "Cuero Lanar", "Rodillos", 2200, "img/rodillo6.jpg"),
-        new Producto(7, "Dorado", "Rodillos", 2600, "img/rodillo7.jpg"),
-        new Producto(8, "EG Plus", "Rodillos", 2700, "img/rodillo8.jpg"),
-        new Producto(1000, "Bandeja de Colgar", "Bandejas", 3600, "img/bandeja1.jpg"),
-        new Producto(1001, "Bandeja de Colgar Economica", "Bandejas", 3200, "img/bandeja2.jpg"),
-        new Producto(1002, "Bandeja Chata", "Bandejas", 4600, "img/bandeja3.png"),
-        new Producto(1003, "Bandeja Chata Economica", "Bandejas", 4000, "img/bandeja4.png"),
-        new Producto(1004, "Handy Paint", "Bandejas", 3000, "img/bandeja5.jpg"),
+    const productos = [
+        new Producto (1, "Paredes y Techos", "Rodillos", 2100, "img/rodillo1.jpg"),
+    new Producto (2, "Microfibra", "Rodillos", 2100, "img/rodillo2.jpg"),
+    new Producto (3, "Epoxi", "Rodillos", 2300, "img/rodillo3.jpg"),
+    new Producto (4, "Antigota", "Rodillos", 2500, "img/rodillo4.jpg"),
+    new Producto (5, "Hogar", "Rodillos", 2400, "img/rodillo5.jpg"),
+    new Producto (6, "Cuero Lanar", "Rodillos", 2200, "img/rodillo6.jpg"),
+    new Producto (7, "Dorado", "Rodillos", 2600, "img/rodillo7.jpg"),
+    new Producto (8, "EG Plus", "Rodillos", 2700, "img/rodillo8.jpg"),
+    new Producto (1000, "Bandeja de Colgar", "Bandejas", 3600, "img/bandeja1.jpg"),
+    new Producto (1001, "Bandeja de Colgar Economica", "Bandejas", 3200, "img/bandeja2.jpg"),
+    new Producto (1002, "Bandeja Chata", "Bandejas", 4600, "img/bandeja3.png"),
+    new Producto (1003, "Bandeja Chata Economica", "Bandejas", 4000, "img/bandeja4.png"),
+    new Producto (1004, "Handy Paint", "Bandejas", 3000, "img/bandeja5.jpg"),
     ];
 
     const catalogo = document.querySelector('.contenedorProductos');
 
-    for (let producto of productos) {
-        let contenedor = document.createElement("div");
-        contenedor.className = "col-xl-3 col-md-6 col-sm-12";
-        contenedor.innerHTML = `
-            <div class="card text-center">
-                <img src= ${producto.imagen} class="card-img-top h-100" alt="">
-                <div class="card-body">
-                    <p class="card-title"> ${producto.nombre} </p>
-                    <p class="card-text"> <strong> $ ${producto.precio} </strong> </p>
-                    <a href="#" id="btnComprar" class="btn btn-danger btnComprar"> Comprar </a>
-                </div>
-            </div>
-        </div>
-      `;
-        /* BOTON COMPRAR */
-        let botonComprar = contenedor.querySelector('.btnComprar');
-
-        botonComprar.addEventListener('click', function () {
-            carrito.push(producto);
-
-            actualizarCarrito();
-
-            /* Mensaje exitoso */
-            Toastify({
-
-                text: "Producto añadido al carrito",
-                gravity: "bottom",
-                duration: 3000
-
-            }).showToast();
-
+    function mostrarProductos(productos) {
+        catalogo.innerHTML = "";
+        productos.forEach(producto => {
+            const contenedor = crearProductoCard(producto);
+            catalogo.appendChild(contenedor);
         });
-
-        catalogo.appendChild(contenedor);
     }
 
     const breadcrumbItems = document.querySelectorAll('.breadcrumb-item');
 
-    breadcrumbItems.forEach(function (item) {
+    breadcrumbItems.forEach(item => {
         item.addEventListener('click', function () {
-            let categoriaSeleccionada = this.id;
-            let productosFiltrados = productos;
-
-            if (categoriaSeleccionada !== 'todos') {
-                productosFiltrados = productos.filter(function (producto) {
-                    return producto.categoria.toLowerCase() === categoriaSeleccionada;
-                });
-            }
-
+            const categoriaSeleccionada = this.id;
+            const productosFiltrados = categoriaSeleccionada !== 'todos'
+                ? productos.filter(producto => producto.categoria.toLowerCase() === categoriaSeleccionada)
+                : productos;
             mostrarProductos(productosFiltrados);
         });
     });
 
-    function mostrarProductos(productos) {
-        catalogo.innerHTML = "";
-
-        for (let producto of productos) {
-            let contenedor = document.createElement("div");
-            contenedor.className = "col-xl-3 col-md-6 col-sm-12";
-            contenedor.innerHTML = `
-                <div class="card text-center">
-                    <img src= ${producto.imagen} class="card-img-top h-100" alt="">
-                    <div class="card-body">
-                        <p class="card-title"> ${producto.nombre} </p>
-                        <p class="card-text"> <strong> $ ${producto.precio} </strong> </p>
-                        <a href="#" class="btn btn-danger btnComprar"> Comprar </a>
-                    </div>
-                </div>
-            </div>
-          `;
-            /* BOTON COMPRAR */
-            let botonComprar = contenedor.querySelector('.btnComprar');
-
-            botonComprar.addEventListener('click', function () {
-                carrito.push(producto);
-
-                actualizarCarrito();
-
-                /* Mensaje exitoso */
-                Toastify({
-
-                    text: "Producto añadido al carrito",
-                    gravity: "bottom",
-                    duration: 3000
-
-                }).showToast();
-            });
-
-            catalogo.appendChild(contenedor);
-        }
-    }
+    mostrarProductos(productos);
 });
+
 
 
 /* CARRITO */
