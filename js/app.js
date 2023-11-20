@@ -57,48 +57,40 @@ function crearProductoCard(producto) {
     return contenedor;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const productos = [
-        new Producto (1, "Paredes y Techos", "Rodillos", 2100, "img/rodillo1.jpg"),
-    new Producto (2, "Microfibra", "Rodillos", 2100, "img/rodillo2.jpg"),
-    new Producto (3, "Epoxi", "Rodillos", 2300, "img/rodillo3.jpg"),
-    new Producto (4, "Antigota", "Rodillos", 2500, "img/rodillo4.jpg"),
-    new Producto (5, "Hogar", "Rodillos", 2400, "img/rodillo5.jpg"),
-    new Producto (6, "Cuero Lanar", "Rodillos", 2200, "img/rodillo6.jpg"),
-    new Producto (7, "Dorado", "Rodillos", 2600, "img/rodillo7.jpg"),
-    new Producto (8, "EG Plus", "Rodillos", 2700, "img/rodillo8.jpg"),
-    new Producto (1000, "Bandeja de Colgar", "Bandejas", 3600, "img/bandeja1.jpg"),
-    new Producto (1001, "Bandeja de Colgar Economica", "Bandejas", 3200, "img/bandeja2.jpg"),
-    new Producto (1002, "Bandeja Chata", "Bandejas", 4600, "img/bandeja3.png"),
-    new Producto (1003, "Bandeja Chata Economica", "Bandejas", 4000, "img/bandeja4.png"),
-    new Producto (1004, "Handy Paint", "Bandejas", 3000, "img/bandeja5.jpg"),
-    ];
+document.addEventListener("DOMContentLoaded", async function () {
+    const traerProductos = './json/data.json'
 
-    const catalogo = document.querySelector('.contenedorProductos');
+    try {
+        const response = await fetch(traerProductos);
+        const productos = await response.json();
 
-    function mostrarProductos(productos) {
-        catalogo.innerHTML = "";
-        productos.forEach(producto => {
-            const contenedor = crearProductoCard(producto);
-            catalogo.appendChild(contenedor);
+        const catalogo = document.querySelector('.contenedorProductos');
+
+        function mostrarProductos(productos) {
+            catalogo.innerHTML = "";
+            productos.forEach(producto => {
+                const contenedor = crearProductoCard(producto);
+                catalogo.appendChild(contenedor);
+            });
+        }
+
+        const breadcrumbItems = document.querySelectorAll('.breadcrumb-item');
+
+        breadcrumbItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const categoriaSeleccionada = this.id;
+                const productosFiltrados = categoriaSeleccionada !== 'todos'
+                    ? productos.filter(producto => producto.categoria.toLowerCase() === categoriaSeleccionada)
+                    : productos;
+                mostrarProductos(productosFiltrados);
+            });
         });
+
+        mostrarProductos(productos);
+    } catch (error) {
+        console.error("Error al cargar productos:");
     }
-
-    const breadcrumbItems = document.querySelectorAll('.breadcrumb-item');
-
-    breadcrumbItems.forEach(item => {
-        item.addEventListener('click', function () {
-            const categoriaSeleccionada = this.id;
-            const productosFiltrados = categoriaSeleccionada !== 'todos'
-                ? productos.filter(producto => producto.categoria.toLowerCase() === categoriaSeleccionada)
-                : productos;
-            mostrarProductos(productosFiltrados);
-        });
-    });
-
-    mostrarProductos(productos);
 });
-
 
 
 /* CARRITO */

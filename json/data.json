@@ -1,0 +1,106 @@
+[
+    {
+        "id": 1,
+        "nombre": "Paredes y Techos",
+        "categoria": "Rodillos",
+        "precio": 2100,
+        "imagen": "./img/rodillo1.jpg"
+    },
+
+    {
+        "id": 2,
+        "nombre": "Microfibra",
+        "categoria": "Rodillos",
+        "precio": 2100,
+        "imagen": "./img/rodillo2.jpg"
+    },
+
+    {
+        "id": 3,
+        "nombre": "Epoxi",
+        "categoria": "Rodillos",
+        "precio": 2300,
+        "imagen": "./img/rodillo3.jpg"
+    },
+
+    {
+        "id": 4,
+        "nombre": "Antigota",
+        "categoria": "Rodillos",
+        "precio": 2500,
+        "imagen": "./img/rodillo4.jpg"
+    },
+
+    {
+        "id": 5,
+        "nombre": "Hogar",
+        "categoria": "Rodillos",
+        "precio": 2400,
+        "imagen": "./img/rodillo5.jpg"
+    },
+
+    {
+        "id": 6,
+        "nombre": "Cuero Lanar",
+        "categoria": "Rodillos",
+        "precio": 2200,
+        "imagen": "./img/rodillo6.jpg"
+    },
+
+    {
+        "id": 7,
+        "nombre": "Dorado",
+        "categoria": "Rodillos",
+        "precio": 2600,
+        "imagen": "./img/rodillo7.jpg"
+    },
+
+    {
+        "id": 8,
+        "nombre": "EG Plus",
+        "categoria": "Rodillos",
+        "precio": 2700,
+        "imagen": "./img/rodillo8.jpg"
+    },
+
+    {
+        "id": 1000,
+        "nombre": "Bandeja de Colgar",
+        "categoria": "Bandejas",
+        "precio": 3600,
+        "imagen": "./img/bandeja1.jpg"
+    },
+
+    {
+        "id": 1001,
+        "nombre": "Bandeja de Colgar Economica",
+        "categoria": "Bandejas",
+        "precio": 3200,
+        "imagen": "./img/bandeja2.jpg"
+    },
+
+    {
+        "id": 1002,
+        "nombre": "Bandeja Chata",
+        "categoria": "Bandejas",
+        "precio": 4600,
+        "imagen": "./img/bandeja3.png"
+    },
+
+    {
+        "id": 1003,
+        "nombre": "Bandeja Chata Economica",
+        "categoria": "Bandejas",
+        "precio": 4000,
+        "imagen": "./img/bandeja4.png"
+    },
+
+    {
+        "id": 1004,
+        "nombre": "Handy Paint",
+        "categoria": "Bandejas",
+        "precio": 3000,
+        "imagen": "./img/bandeja5.jpg"
+    }
+
+]
